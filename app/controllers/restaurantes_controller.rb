@@ -37,6 +37,11 @@ class RestaurantesController < ApplicationController
 
   def destroy
     @restaurante = Restaurante.find(params[:id])
+	
+	# ao apagar um restaurante limpa todas as qualificacoes ligadas a ele
+	@qualificacoes = Qualificacao.all
+	@qualificacoes.each {|t| if t.restaurante_id == @restaurante.id ; t.destroy end	}
+	
     @restaurante.destroy
 	
 	redirect_to(:action => "index")

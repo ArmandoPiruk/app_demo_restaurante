@@ -73,6 +73,11 @@ class ClientesController < ApplicationController
   # DELETE /clientes/1.xml
   def destroy
     @cliente = Cliente.find(params[:id])
+	
+	# ao apagar um cliente limpa todas as qualificacoes ligadas a ele
+	@qualificacoes = Qualificacao.all
+	@qualificacoes.each {|t| if t.cliente_id == @cliente.id ; t.destroy end	}
+	
     @cliente.destroy
 
     respond_to do |format|
